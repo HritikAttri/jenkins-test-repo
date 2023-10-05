@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'echo ${WEBHOOK_EVENT_DETAILS}'
-                sh 'echo hello world'
+                println("Branch name: ${WEBHOOK_EVENT_DETAILS.pull_request.head.ref}")
+                // sh 'echo ${WEBHOOK_EVENT_DETAILS} > tmp.json'
+                // BRANCH_NAME=sh('cat tmp.json | jq -r .pull_request.head.ref', returnStdout: true).trim()
+                // sh 'echo ${BRANCH_NAME}'
             }
         }
     }
