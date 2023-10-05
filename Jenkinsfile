@@ -13,8 +13,9 @@ node {
             GITHUB_API=https://api.github.com
             REPO_OWNER=testing-org-hritik10
             REPO_NAME=jenkins-test-repo
+            GITHUB_TOKEN=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
             COMMIT_SHA=\$(git rev-parse HEAD)
-            curl -i -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
+            curl -i -H "Authorization: Bearer \$GITHUB_TOKEN" \
                  -H "Content-Type: application/json" \
                  -X POST \
                  -d "{\"state\":\"\$STATUS\",\"target_url\":\"\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}" \
