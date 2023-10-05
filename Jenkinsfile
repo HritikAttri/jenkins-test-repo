@@ -17,7 +17,7 @@ node {
                        "started_at": "2020-03-05T11:14:52Z", \
                        "output": { "title": "Check run from Jenkins!", \
                                    "summary": "This is a check run which has been generated from Jenkins as GitHub App", \
-                                   "text": "...and that is awesome"}}' https://api.github.com/repos/<org>/<repo>/check-runs
+                                   "text": "...and that is awesome"}}' https://api.github.com/repos/testing-org-hritik10/jenkins-test-repo/check-runs
             '''
         }
     }
