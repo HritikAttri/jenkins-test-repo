@@ -4,16 +4,17 @@ import java.text.SimpleDateFormat
 
 node {
     try {
+        def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
         stage('build') {
                 sh 'exit 1'
         }
         stage('deploy') {
-            def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
+            sh 'echo deploy'
         }
     } catch (e) {
-        sendGitHubCheck('failure', 'Build failed')
+        sendGitHubCheck(eventPayload, 'failure', 'Build failed')
     }
-    sendGitHubCheck('success', 'Build success')
+    sendGitHubCheck(eventPayload, 'success', 'Build success')
 }
 
 def sendGitHubCheck(def eventPayload, def status, def description) {
