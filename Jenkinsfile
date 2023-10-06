@@ -3,7 +3,7 @@ import groovy.json.JsonSlurperClassic
 
 node {
     stage('build') {
-            sh 'echo hello worldab'
+            sh 'echo hello worldab
     }
     stage('updatechecks') {
         withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
