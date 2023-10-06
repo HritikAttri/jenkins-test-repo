@@ -23,7 +23,7 @@ node {
     sendGitHubCheck(eventPayload, 'BuildFailed', 'SUCCESS', 'success', 'Build succeeded!')
 }
 
-def sendGitHubCheck(def eventPayload, def status, def checkName, def status, def description) {
+def sendGitHubCheck(def eventPayload, def status, def checkName, def conclusion, def description) {
         withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
@@ -33,7 +33,7 @@ def sendGitHubCheck(def eventPayload, def status, def checkName, def status, def
             dataJson["name"] = checkName
             dataJson["head_sha"] = eventPayload.pull_request.head.sha
             dataJson["status"] = status
-            dataJson["conclusion"] = status
+            dataJson["conclusion"] = conclusion
             dataJson["completed_at"] = sdf.format(date)
             dataJson["details_url"] = "http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/console"
             dataJson["output"]["title"] = description
