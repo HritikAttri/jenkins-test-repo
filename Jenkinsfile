@@ -1,5 +1,4 @@
 node {
-    skipDefaultCheckout()
     stage('build') {
             sh 'echo hello world'
     }
@@ -12,15 +11,20 @@ node {
             DESCRIPTION=hiiiiiiiiii
             CONTEXT=sample_context
             GITHUB_API=https://api.github.com
-            REPO_OWNER=testing-org-hritik10
-            REPO_NAME=jenkins-test-repo
+            OWNER=testing-org-hritik10
+            REPO=jenkins-test-repo
             COMMIT_SHA=\$(git rev-parse HEAD)
-            curl -i -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
-                 -H "Content-Type: application/json" \
-                 -X POST \
-                 -d "{\"state\":\"\$STATUS\",\"target_url\":\"\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}" \
-                 "\$GITHUB_API/repos/\$REPO_OWNER/\$REPO_NAME/statuses/\$COMMIT_SHA"
+            curl "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/\${COMMIT_SHA}" \
+              -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
+              -H "Content-Type: application/json" \
+              -X POST \
+              -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"<YOUR_JENKINS_URL>/job/<JenkinsProjectName>/\$BUILD_NUMBER/console\"}"
             """)
+            // curl -i -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
+            //      -H "Content-Type: application/json" \
+            //      -X POST \
+            //      -d "{\"state\":\"\$STATUS\",\"target_url\":\"\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}" \
+            //      "\$GITHUB_API/repos/\$REPO_OWNER/\$REPO_NAME/statuses/\$COMMIT_SHA"
         }
     }
 }
