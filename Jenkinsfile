@@ -30,7 +30,6 @@ node {
             OWNER=testing-org-hritik10
             REPO=jenkins-test-repo
             # COMMIT_SHA=\$(git rev-parse HEAD)
-            # curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/${eventPayload.pull_request.head.sha}" \
             curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/check-runs \
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
               -H "Accept: application/vnd.github+json" \
