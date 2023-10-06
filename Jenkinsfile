@@ -1,4 +1,5 @@
 node {
+    skipDefaultCheckout()
     stage('build') {
             sh 'echo hello world'
     }
