@@ -14,6 +14,7 @@ node {
             dataJson["description"] = "lololol"
             dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
+            println("CommitId: ${JsonOutput.toJson(WEBHOOK_EVENT_DETAILS.pull_request.head.sha)}")
             sh("""
             STATUS=success
             DESCRIPTION=hiiiiiiiiii
@@ -22,7 +23,7 @@ node {
             OWNER=testing-org-hritik10
             REPO=jenkins-test-repo
             COMMIT_SHA=\$(git rev-parse HEAD)
-            curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/${WEBHOOK_EVENT_DETAILS.pull_request.head.sha}" \
+            curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/\$COMMIT_ID" \
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
