@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 node {
     def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
     try {
-        sendGitHubCheck(eventPayload, 'BuildStarted', 'neutral', 'Pipeline execution has started...')
+        sendGitHubCheck(eventPayload, 'BuildStarted', 'INPROGRESS', 'neutral', 'Pipeline execution has started...')
         stage('build') {
                 sh 'exit 1'
                 error("heyy")
@@ -15,15 +15,15 @@ node {
         }
     } catch (e) {
         println("failure case")
-        sendGitHubCheck(eventPayload, 'BuildFailed', 'failure', 'Build failed!')
+        sendGitHubCheck(eventPayload, 'BuildFailed', 'FAILURE', 'failure', 'Build failed!')
         currentBuild.result = 'FAILURE'
         error(e.message)
     }
     println("success case")
-    sendGitHubCheck(eventPayload, 'BuildFailed', 'success', 'Build succeeded!')
+    sendGitHubCheck(eventPayload, 'BuildFailed', 'SUCCESS', 'success', 'Build succeeded!')
 }
 
-def sendGitHubCheck(def eventPayload, def checkName, def status, def description) {
+def sendGitHubCheck(def eventPayload, def status, def checkName, def status, def description) {
         withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
@@ -32,7 +32,7 @@ def sendGitHubCheck(def eventPayload, def checkName, def status, def description
             Map dataJson = [ "output": [:] ]
             dataJson["name"] = checkName
             dataJson["head_sha"] = eventPayload.pull_request.head.sha
-            dataJson["state"] = "completed"
+            dataJson["status"] = status
             dataJson["conclusion"] = status
             dataJson["completed_at"] = sdf.format(date)
             dataJson["details_url"] = "http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/console"
@@ -40,10 +40,6 @@ def sendGitHubCheck(def eventPayload, def checkName, def status, def description
             dataJson["output"]["summary"] = description
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             sh("""
-            STATUS=success
-            DESCRIPTION=hiiiiiiiiii
-            CONTEXT=sample_context
-            GITHUB_API=https://api.github.com
             OWNER=testing-org-hritik10
             REPO=jenkins-test-repo
             curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/check-runs" \
