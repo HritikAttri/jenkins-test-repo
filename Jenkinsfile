@@ -1,3 +1,5 @@
+import groovy.json.JsonOutput
+
 node {
     stage('build') {
             sh 'echo hello world'
@@ -6,17 +8,12 @@ node {
         withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
-            sh('''
-            DATA_JSON=$(cat <<EOF
-            {
-              "state": "Success",
-              "target_url": "https://ec2-100-25-219-177.compute-1.amazonaws.com:8080",
-              "description": "description",
-              "context": "context",
-            }
-            EOF
-            )
-            ''')
+            Map dataJson = [:]
+            dataJson["state"] = "success"
+            dataJson["target_url"] = ""
+            dataJson["description"] = "description"
+            dataJson["context"] = "context"
+            writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             sh("""
             STATUS=success
             DESCRIPTION=hiiiiiiiiii
@@ -29,7 +26,8 @@ node {
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
               -H "Content-Type: application/json" \
               -X POST \
-              -d '{\"state\":\"\\\$STATUS\",\"target_url\":\"\\\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}'
+              --data-binary "@data.json"
+              # -d '{\"state\":\"\\\$STATUS\",\"target_url\":\"\\\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}'
               # -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/\$BUILD_NUMBER/console\"}"
             """)
             // curl -i -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
