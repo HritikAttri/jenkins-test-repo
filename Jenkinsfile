@@ -18,7 +18,8 @@ node {
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
               -H "Content-Type: application/json" \
               -X POST \
-              -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/\$BUILD_NUMBER/console\"}"
+              -d "{\"state\":\"\$STATUS\",\"target_url\":\"\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}"
+              # -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/\$BUILD_NUMBER/console\"}"
             """)
             // curl -i -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
             //      -H "Content-Type: application/json" \
