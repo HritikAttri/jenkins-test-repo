@@ -22,7 +22,7 @@ def sendGitHubCheck(def eventPayload, def status, def description) {
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
             def date = new Date()
-            def sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss")
+            def sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             Map dataJson = [ "output": [:] ]
             def checkName = "Jenkins Build"
             dataJson["name"] = checkName
