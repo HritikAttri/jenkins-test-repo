@@ -14,7 +14,7 @@ node {
             dataJson["description"] = "lololol"
             dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
-            println("CommitId: ${JsonOutput.toJson(WEBHOOK_EVENT_DETAILS.pull_request.head.sha)}")
+            println("CommitId: ${JsonOutput.toJson(WEBHOOK_EVENT_DETAILS).pull_request.head.sha}")
             sh("""
             STATUS=success
             DESCRIPTION=hiiiiiiiiii
