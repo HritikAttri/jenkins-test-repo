@@ -11,9 +11,9 @@ node {
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
             Map dataJson = [:]
             dataJson["state"] = "success"
-            dataJson["target_url"] = "https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/${env.BUILD_NUMBER}/console"
-            dataJson["description"] = "lololol"
-            dataJson["context"] = "continuous-integration/jenkins-hahaha"
+            dataJson["target_url"] = "http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/${env.BUILD_NUMBER}/console"
+            dataJson["description"] = "Jenkins"
+            dataJson["context"] = "continuous-integration/jenkins"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
             println("CommitId: ${eventPayload.pull_request.head.sha}")
