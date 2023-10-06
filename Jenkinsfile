@@ -10,7 +10,7 @@ node {
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
             Map dataJson = [:]
             dataJson["state"] = "success"
-            dataJson["target_url"] = "https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/${env.BUILD_NUMBER}/console\"
+            dataJson["target_url"] = "https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/20/console"
             dataJson["description"] = "Jenkins"
             dataJson["context"] = "continuous-integration/jenkins"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
