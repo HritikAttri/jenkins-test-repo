@@ -20,6 +20,7 @@ node {
             dataJson["head_sha"] = eventPayload.pull_request.head.sha
             dataJson["state"] = "completed"
             dataJson["conclusion"] = "success"
+            dataJson["details_url"] = "http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/\${JOB_NAME}/\${BUILD_NUMBER}/console"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             // pull_request.head.sha
             sh("""
