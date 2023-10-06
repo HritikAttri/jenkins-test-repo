@@ -11,8 +11,8 @@ node {
             Map dataJson = [:]
             dataJson["state"] = "success"
             dataJson["target_url"] = "https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/20/console"
-            dataJson["description"] = "Jenkins"
-            dataJson["context"] = "continuous-integration/jenkins"
+            dataJson["description"] = "lololol"
+            dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             sh("""
             STATUS=success
