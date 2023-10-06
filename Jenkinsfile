@@ -15,7 +15,7 @@ node {
             dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             mapEvent = JsonOutput.toJson(WEBHOOK_EVENT_DETAILS)
-            println("CommitId: ${mapEvent}")
+            println("CommitId: ${mapEvent.pull_request}")
             // pull_request.head.sha
             sh("""
             STATUS=success
