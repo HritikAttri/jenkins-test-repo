@@ -7,7 +7,7 @@ node {
     try {
         sendGitHubCheck(eventPayload, 'in_progress', 'BUILD_INPROGRESS', 'neutral', 'Pipeline execution has started...')
         stage('build') {
-                sh 'sleep 4'
+                sh 'sleep 5'
                 // error("heyy")
         }
         stage('deploy') {
