@@ -8,7 +8,7 @@ node {
         sendGitHubCheck(eventPayload, 'neutral', 'Pipeline execution has started...')
         stage('build') {
                 sh 'exit 1'
-                error("hey")
+                error("heyy")
         }
         stage('deploy') {
             sh 'echo deploy'
