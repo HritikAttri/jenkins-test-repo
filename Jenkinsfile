@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 node {
     def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
     try {
-        sendGitHubCheck(eventPayload, 'BuildStarted', 'INPROGRESS', 'neutral', 'Pipeline execution has started...')
+        sendGitHubCheck(eventPayload, 'BuildStarted', 'in_progress', 'neutral', 'Pipeline execution has started...')
         stage('build') {
                 sh 'exit 1'
                 error("heyy")
@@ -15,12 +15,12 @@ node {
         }
     } catch (e) {
         println("failure case")
-        sendGitHubCheck(eventPayload, 'BuildFailed', 'FAILURE', 'failure', 'Build failed!')
+        sendGitHubCheck(eventPayload, 'BuildFailed', 'completed', 'failure', 'Build failed!')
         currentBuild.result = 'FAILURE'
         error(e.message)
     }
     println("success case")
-    sendGitHubCheck(eventPayload, 'BuildFailed', 'SUCCESS', 'success', 'Build succeeded!')
+    sendGitHubCheck(eventPayload, 'BuildFailed', 'completed', 'success', 'Build succeeded!')
 }
 
 def sendGitHubCheck(def eventPayload, def status, def checkName, def conclusion, def description) {
