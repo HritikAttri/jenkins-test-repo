@@ -22,10 +22,10 @@ node {
             OWNER=testing-org-hritik10
             REPO=jenkins-test-repo
             COMMIT_SHA=\$(git rev-parse HEAD)
-            curl "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/\${COMMIT_SHA}" \
+            curl -X POST "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/\${COMMIT_SHA}" \
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
-              -H "Content-Type: application/json" \
-              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
               --data-binary "@data.json"
               # -d '{\"state\":\"\\\$STATUS\",\"target_url\":\"\\\$BUILD_URL\",\"description\":\"\$DESCRIPTION\",\"context\":\"\$CONTEXT\"}'
               # -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"https://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/ghapp-test-job/\$BUILD_NUMBER/console\"}"
