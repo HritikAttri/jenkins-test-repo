@@ -1,4 +1,5 @@
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurperClassic
 
 node {
     stage('build') {
@@ -14,9 +15,7 @@ node {
             dataJson["description"] = "lololol"
             dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
-            // mapEvent = JsonOutput.toJson(WEBHOOK_EVENT_DETAILS)
-            def jsonSlurper = new groovy.json.JsonSlurper()
-            def eventPayload = jsonSlurper.parseText(WEBHOOK_EVENT_DETAILS)
+            def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
             println("CommitId: ${eventPayload.pull_request}")
             // pull_request.head.sha
             sh("""
