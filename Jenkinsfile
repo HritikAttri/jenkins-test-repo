@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 node {
     def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
     try {
-        sendGitHubCheck(eventPayload, 'InProgress', 'Pipeline execution has started...')
+        sendGitHubCheck(eventPayload, 'neutral', 'Pipeline execution has started...')
         stage('build') {
                 sh 'exit 1'
                 error("hey")
@@ -15,12 +15,12 @@ node {
         }
     } catch (e) {
         println("failure case")
-        sendGitHubCheck(eventPayload, 'Failure', 'Build failed!')
+        sendGitHubCheck(eventPayload, 'failure', 'Build failed!')
         currentBuild.result = 'FAILURE'
         error(e.message)
     }
     println("success case")
-    sendGitHubCheck(eventPayload, 'Success', 'Build succeeded!')
+    sendGitHubCheck(eventPayload, 'success', 'Build succeeded!')
 }
 
 def sendGitHubCheck(def eventPayload, def status, def description) {
@@ -37,7 +37,7 @@ def sendGitHubCheck(def eventPayload, def status, def description) {
             dataJson["conclusion"] = status
             dataJson["completed_at"] = sdf.format(date)
             dataJson["details_url"] = "http://ec2-100-25-219-177.compute-1.amazonaws.com:8080/job/${env.JOB_NAME}/${env.BUILD_NUMBER}/console"
-            dataJson["output"]["title"] = "${checkName} Results"
+            dataJson["output"]["title"] = description
             dataJson["output"]["summary"] = description
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             sh("""
