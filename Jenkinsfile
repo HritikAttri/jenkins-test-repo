@@ -7,7 +7,6 @@ node {
     try {
         stage('build') {
                 sh 'exit 1'
-                currentBuild.status = 'FAILURE'
                 error("hey")
         }
         stage('deploy') {
@@ -16,6 +15,8 @@ node {
     } catch (e) {
         println("failure case")
         sendGitHubCheck(eventPayload, 'failure', 'Build failed')
+        currentBuild.result = 'FAILURE'
+        error(e.message)
     }
     println("success case")
     sendGitHubCheck(eventPayload, 'success', 'Build success')
