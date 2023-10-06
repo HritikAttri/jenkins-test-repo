@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 node {
     try {
         stage('build') {
-                sh 'echo hello worldab
+                sh 'exit 1'
         }
         stage('deploy') {
             def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
