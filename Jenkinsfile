@@ -16,7 +16,7 @@ node {
             dataJson["context"] = "continuous-integration/jenkins-hahaha"
             writeFile file: 'data.json', text: JsonOutput.toJson(dataJson)
             def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
-            println("CommitId: ${eventPayload.pull_request}")
+            println("CommitId: ${eventPayload.pull_request.head.sha}")
             // pull_request.head.sha
             sh("""
             STATUS=success
