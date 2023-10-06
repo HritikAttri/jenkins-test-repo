@@ -13,6 +13,11 @@ node {
             GITHUB_API=https://api.github.com
             OWNER=testing-org-hritik10
             REPO=jenkins-test-repo
+            DATA_JSON=\$(cat <<EOF
+            hi
+            bye
+            EOF
+            )
             COMMIT_SHA=\$(git rev-parse HEAD)
             curl "https://api.gitHub.com/repos/\${OWNER}/\${REPO}/statuses/\${COMMIT_SHA}" \
               -H "Authorization: Bearer \$GITHUB_ACCESS_TOKEN" \
