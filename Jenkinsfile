@@ -3,8 +3,8 @@ import groovy.json.JsonSlurperClassic
 import java.text.SimpleDateFormat
 
 node {
+    def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
     try {
-        def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
         stage('build') {
                 sh 'exit 1'
         }
