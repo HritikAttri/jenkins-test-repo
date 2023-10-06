@@ -14,8 +14,10 @@ node {
             sh 'echo deploy'
         }
     } catch (e) {
+        println("failure case")
         sendGitHubCheck(eventPayload, 'failure', 'Build failed')
     }
+    println("success case")
     sendGitHubCheck(eventPayload, 'success', 'Build success')
 }
 
