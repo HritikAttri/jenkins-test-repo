@@ -7,6 +7,8 @@ node {
     try {
         stage('build') {
                 sh 'exit 1'
+                currentBuild.status = 'FAILURE'
+                error("hey")
         }
         stage('deploy') {
             sh 'echo deploy'
