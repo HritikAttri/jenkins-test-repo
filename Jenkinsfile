@@ -3,7 +3,7 @@ node {
             sh 'echo hello world'
     }
     stage('updatechecks') {
-        withCredentials([usernamePassword(credentialsId: 'main-gh-app-org',
+        withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
             sh("""
