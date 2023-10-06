@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 node {
     def eventPayload = new groovy.json.JsonSlurperClassic().parseText(WEBHOOK_EVENT_DETAILS)
     try {
-        sendGitHubCheck(eventPayload, 'neutral', 'Pipeline execution has started...')
+        sendGitHubCheck(eventPayload, 'BuildStarted', 'neutral', 'Pipeline execution has started...')
         stage('build') {
                 sh 'exit 1'
                 error("heyy")
@@ -15,22 +15,21 @@ node {
         }
     } catch (e) {
         println("failure case")
-        sendGitHubCheck(eventPayload, 'failure', 'Build failed!')
+        sendGitHubCheck(eventPayload, 'BuildFailed', 'failure', 'Build failed!')
         currentBuild.result = 'FAILURE'
         error(e.message)
     }
     println("success case")
-    sendGitHubCheck(eventPayload, 'success', 'Build succeeded!')
+    sendGitHubCheck(eventPayload, 'BuildFailed', 'success', 'Build succeeded!')
 }
 
-def sendGitHubCheck(def eventPayload, def status, def description) {
+def sendGitHubCheck(def eventPayload, def checkName, def status, def description) {
         withCredentials([usernamePassword(credentialsId: 'main_gh_app_org',
                                           usernameVariable: 'GITHUB_APP',
                                           passwordVariable: 'GITHUB_ACCESS_TOKEN')]) {
             def date = new Date()
             def sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             Map dataJson = [ "output": [:] ]
-            def checkName = "Jenkins Build"
             dataJson["name"] = checkName
             dataJson["head_sha"] = eventPayload.pull_request.head.sha
             dataJson["state"] = "completed"
